@@ -1,7 +1,8 @@
-import { useState } from "react";
+import {useState} from "react";
 import "../App.css";
 import axios from "axios"; // npm i axios
-import { useNavigate } from "react-router-dom"; //   npm install react-router-dom
+import {useNavigate} from "react-router-dom"; //   npm install react-router-dom
+import {} from "../Components/components";
 
 export default function Input({
   backendurl,
@@ -10,7 +11,7 @@ export default function Input({
   getCurrentTime,
   setMerchantTradeNo,
   Language,
-  setLanguage,
+
 }) {
   const navigate = useNavigate();
   const Timestamp = Math.floor(Date.now() / 1000);
@@ -48,42 +49,42 @@ export default function Input({
       TotalAmount: TotalAmount,
       TradeDesc: TradeDesc,
       ItemName: ItemName,
-      ReturnURL: ReturnURL,
+      ReturnURL: ReturnURL
     },
     CardInfo: {
       OrderResultURL: OrderResultURL,
-      CreditInstallment: CreditInstallment,
+      CreditInstallment: CreditInstallment
     },
-    UnionPayInfo: { OrderResultURL: OrderResultURL },
+    UnionPayInfo: {OrderResultURL: OrderResultURL},
     ATMInfo: {
-      ExpireDate: ExpireDate,
+      ExpireDate: ExpireDate
     },
     CVSInfo: {
-      StoreExpireDate: StoreExpireDate_CVS,
+      StoreExpireDate: StoreExpireDate_CVS
     },
     BARCODEInfo: {
-      StoreExpireDate: StoreExpireDate_BARCODE,
+      StoreExpireDate: StoreExpireDate_BARCODE
     },
     ConsumerInfo: {
       MerchantMemberID: MerchantMemberID,
       Name: Name,
       Phone: Phone,
-      Email: Email,
-    },
+      Email: Email
+    }
   };
   const GetTokenByTradePayload = {
     MerchantID: MerchantID,
-    RqHeader: { Timestamp: Timestamp },
-    Data: Data,
+    RqHeader: {Timestamp: Timestamp},
+    Data: Data
   };
 
   const translations = {
     [ECPay.Language.zhTW]: {
       purchaseAmount: "請輸入購買數量",
       price: "價格",
-      priceunit:" 元/份",
+      priceunit: " 元/份",
       totalAmount: "總額",
-      ntd:" ",
+      ntd: " ",
       purchaseInfo: "請輸入購買資訊",
       name: "姓名",
       phone: "電話",
@@ -97,9 +98,9 @@ export default function Input({
     [ECPay.Language.enUS]: {
       purchaseAmount: "Purchase Amount",
       price: "Price",
-      priceunit:" NTD/Piece",
+      priceunit: " NTD/Piece",
       totalAmount: "Total Amount ",
-      ntd:" NTD",
+      ntd: " NTD",
       purchaseInfo: "Purchase Information",
       name: "Name",
       phone: "Phone",
@@ -112,7 +113,18 @@ export default function Input({
     }
   };
 
+  const [isValidEmail, setIsValidEmail] = useState(true);
+
+  const validateEmail = email => {
+    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return regex.test(email);
+  };
+
   async function handleSubmit() {
+    if (!validateEmail(Email)) {
+      setIsValidEmail(false);
+      return;
+    }
     setMerchantTradeNo(latestMerchantTradeNo);
     setIsClicked(true);
     try {
@@ -131,118 +143,141 @@ export default function Input({
 
   return (
     <>
-      <div className="paramsInput">
-        
-          <form>
-            <input
-              type="radio"
-              name="chooseLanguage"
-              checked={Language==ECPay.Language.zhTW}
-              onChange={() => {
-                setLanguage(ECPay.Language.zhTW);
-              }}
-            />
-            中文
-            <input
-              type="radio"
-              name="chooseLanguage"
-              checked={Language==ECPay.Language.enUS}
-              onChange={() => {
-                setLanguage(ECPay.Language.enUS);
-              }}
-            />
-            English
-          </form>
-        
-        <div className="purchase-info">
-          <h2>{translations[Language].purchaseAmount}</h2>
-          <p>{translations[Language].price}：{price}{translations[Language].priceunit}</p>
-          <p>
-            <input
-              value={Unit}
-              id="Unit"
-              type="number"
-              min="1"
-              max="100"
-              onChange={(e) => {
-                const newUnit = Math.min(
-                  100,
-                  Math.max(1, parseInt(e.target.value) || 1)
-                );
-                setUnit(newUnit);
-                setTotalAmount(newUnit * price);
-              }}
-            />
-          </p>
-          {translations[Language].totalAmount}：{TotalAmount}{translations[Language].ntd}
-        </div>
-
-        <div className="purchase-info">
-          <h2>{translations[Language].purchaseInfo}</h2>
-          <p>
-            <label>{translations[Language].name}</label>
-            <input
-              id="Name"
-              type="text"
-              maxLength="50"
-              onChange={(e) => setName(e.target.value)}
-              value={Name}
-            />
-          </p>
-          <p>
-            <label>{translations[Language].phone}</label>
-            <input
-              id="Phone"
-              type="tel"
-              maxLength="60"
-              onChange={(e) => {
-                const inputValue = e.target.value.replace(/\D/g, "");
-                setPhone(inputValue);
-              }}
-              value={Phone}
-            />
-          </p>
-          <p>
-            <label>{translations[Language].email}</label>
-            <input
-              id="Email"
-              type="email"
-              maxLength="30"
-              onChange={(e) => setEmail(e.target.value)}
-              value={Email}
-            />
-          </p>
-
-          <div>{translations[Language].rememberCard}</div>
-          <form>
-            <label className="hover_radio">
+      <div className="paramsInput flex items-top justify-center p-10">
+        <div className="m-2   h-auto">
+          <div className="w-full purchase-info ">
+            <h2 className="font-black text-2xl">
+              {translations[Language].purchaseAmount}
+            </h2>
+            <p className="m-2">
+              {translations[Language].price}：{price}
+              {translations[Language].priceunit}
+            </p>
+            <p className="m-2">
               <input
-                type="radio"
-                name="RememberCard"
-                value="1"
-                checked={RememberCard === 1}
-                onChange={() => setRememberCard(1)}
+                className="block p-2 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm/6 "
+                value={Unit}
+                id="Unit"
+                type="number"
+                min="1"
+                max="100"
+                onChange={e => {
+                  const newUnit = Math.min(
+                    100,
+                    Math.max(1, parseInt(e.target.value) || 1)
+                  );
+                  setUnit(newUnit);
+                  setTotalAmount(newUnit * price);
+                }}
               />
-              {translations[Language].yes}
-            </label>
-            <label className="hover_radio">
+            </p>
+            <p className="m-2">
+              {" "}
+              {translations[Language].totalAmount}：{TotalAmount}
+              {translations[Language].ntd}
+            </p>
+          </div>
+          <div className="w-full purchase-info">
+            <h2 className="font-black text-2xl">
+              {translations[Language].purchaseInfo}
+            </h2>
+            <p className="m-2">
+              <label className="m-2">{translations[Language].name}</label>
               <input
-                type="radio"
-                name="RememberCard"
-                value="0"
-                checked={RememberCard === 0}
-                onChange={() => setRememberCard(0)}
+                className="p-2 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm/6"
+                id="Name"
+                type="text"
+                maxLength="50"
+                onChange={e => setName(e.target.value)}
+                value={Name}
               />
-              {translations[Language].no}
-            </label>
-          </form>
+            </p>
+            <p className="m-2">
+              <label className="m-2">{translations[Language].phone}</label>
+              <input
+                className=" p-2 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm/6"
+                id="Phone"
+                type="tel"
+                maxLength="60"
+                onChange={e => {
+                  const inputValue = e.target.value.replace(/\D/g, "");
+                  setPhone(inputValue);
+                }}
+                value={Phone}
+              />
+            </p>
+            <p className="m-2">
+              <label className="m-2">{translations[Language].email}</label>
+
+              <input
+                className={`p-2 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ${
+                  isValidEmail ? "ring-gray-300" : "ring-red-500"
+                } placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm/6`}
+                id="Email"
+                aria-invalid={!isValidEmail}
+                aria-describedby="email-error"
+                type="email"
+                maxLength="30"
+                onChange={e => {
+                  setEmail(e.target.value);
+                  setIsValidEmail(validateEmail(e.target.value));
+                }}
+                value={Email}
+              />
+              {!isValidEmail && (
+                <p
+                  className="text-red-500 text-sm mt-1"
+                  id="email-error">
+                  請輸入有效的電子郵件地址
+                </p>
+              )}
+            </p>
+
+            <div>{translations[Language].rememberCard}</div>
+            <form>
+              <label className="hover_radio">
+                <input
+                  className="border border-[#737373] rounded-lg p-1"
+                  type="radio"
+                  name="RememberCard"
+                  value="1"
+                  checked={RememberCard === 1}
+                  onChange={() => setRememberCard(1)}
+                />
+                {translations[Language].yes}
+              </label>
+              <label className="hover_radio">
+                <input
+                  className="border border-[#737373] rounded-lg p-1"
+                  type="radio"
+                  name="RememberCard"
+                  value="0"
+                  checked={RememberCard === 0}
+                  onChange={() => setRememberCard(0)}
+                />
+                {translations[Language].no}
+              </label>
+            </form>
+          </div>
+          <div className="w-full purchase-info">
+            {" "}
+            <button
+              className="w-fit m-10 text-center items-center gap-2 rounded-md py-2 px-8 text-sm/6 font-semibold text-amber-500 shadow-inner shadow-white/10 focus:outline-none data-[focus]:outline-1 data-[focus]:outline-white transition ease-in-out delay-50 bg-orange-100 hover:-translate-y-1 hover:scale-110 hover:bg-orange-500 hover:text-white duration-300"
+              onClick={handleSubmit}
+              disabled={isClicked}>
+              {isClicked
+                ? translations[Language].submitting
+                : translations[Language].submit}
+            </button>
+          </div>
         </div>
-        <button onClick={handleSubmit} disabled={isClicked}>
-          {isClicked ? translations[Language].submitting:translations[Language].submit }
-        </button>
+        <div className="m-2   w-1/3">
+          <img
+            className=" w-full shadow-lg shadow-black rounded-lg"
+            src="/Images/inputimg.png"
+          />
+        </div>
       </div>
-
-      <div id="ECPayPayment" className="PaymentUI"></div>
     </>
   );
 }

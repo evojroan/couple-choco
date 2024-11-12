@@ -67,56 +67,73 @@ export default function PaymentInfoPage({PaymentInfo}) {
   };
 
   return (
-    <>
-      <h2>謝謝您！以下是訂單與匯款資料：</h2>
-      訂單編號 ：{PaymentInfo.OrderInfo.MerchantTradeNo}
-      <br />
-      付款方式 ：{paymentObj[payMethod].PaymentName}
-      <br />
-      {payMethod === "ATM"
-        ? paymentObj[payMethod].BankName
-        : payMethod === "CVS"
-        ? paymentObj[payMethod].CVSName
-        : payMethod === "BARCODE"
-        ? paymentObj[payMethod].CVSName
-        : ""}
-      <br />
-      {payMethod === "ATM"
-        ? paymentObj[payMethod].BankCode
-        : payMethod === "CVS"
-        ? paymentObj[payMethod].CVSCode
-        : payMethod === "BARCODE"
-        ? paymentObj[payMethod].CVSCode
-        : ""}
-      <br />
-      {payMethod === "ATM" ? (
-        paymentObj[payMethod].vAccount
-      ) : payMethod === "CVS" ? (
-        paymentObj[payMethod].PaymentNo
-      ) : payMethod === "BARCODE" ? (
-        <>
-          <Barcode value={paymentObj[payMethod].PaymentNo.第一段條碼} />
-          <Barcode value={paymentObj[payMethod].PaymentNo.第二段條碼} />
-          <Barcode value={paymentObj[payMethod].PaymentNo.第三段條碼} />
-        </>
-      ) : (
-        ""
-      )}
-      <br />
-      {payMethod === "ATM"
-        ? paymentObj[payMethod].ExpireDate
-        : payMethod === "CVS"
-        ? paymentObj[payMethod].ExpireDate
-        : payMethod === "BARCODE"
-        ? paymentObj[payMethod].ExpireDate
-        : ""}
-      <br />
-      <button
-        onClick={() => {
-          navigate("/");
-        }}>
-        返回首頁
-      </button>
-    </>
+    <div className="min-h-screen bg-gradient-to-b from-white from-75% to-[#f4e4bc] border-2">
+      <div className="m-12 ">
+        <h1
+          className="text-3xl font-bold"
+          data-aos="fade-down"
+          data-aos-once="true">
+          謝謝您！以下是訂單與匯款資料：
+        </h1>
+        <p className="m-2">
+          {" "}
+          訂單編號 ：{PaymentInfo.OrderInfo.MerchantTradeNo}
+        </p>
+        <p className="m-2"> 付款方式 ：{paymentObj[payMethod].PaymentName}</p>
+        <p className="m-2">
+          {payMethod === "ATM"
+            ? paymentObj[payMethod].BankName
+            : payMethod === "CVS"
+            ? paymentObj[payMethod].CVSName
+            : payMethod === "BARCODE"
+            ? paymentObj[payMethod].CVSName
+            : ""}
+        </p>
+        <p className="m-2">
+          {payMethod === "ATM"
+            ? paymentObj[payMethod].BankCode
+            : payMethod === "CVS"
+            ? paymentObj[payMethod].CVSCode
+            : payMethod === "BARCODE"
+            ? paymentObj[payMethod].CVSCode
+            : ""}
+        </p>
+        <p className="m-2">
+          {payMethod === "ATM" ? (
+            paymentObj[payMethod].vAccount
+          ) : payMethod === "CVS" ? (
+            paymentObj[payMethod].PaymentNo
+          ) : payMethod === "BARCODE" ? (
+            <div className="flex">
+              <Barcode value={paymentObj[payMethod].PaymentNo.第一段條碼} />
+              <Barcode value={paymentObj[payMethod].PaymentNo.第二段條碼} />
+              <Barcode value={paymentObj[payMethod].PaymentNo.第三段條碼} />
+            </div>
+          ) : (
+            ""
+          )}
+        </p>
+        <p className="m-2">
+          {payMethod === "ATM"
+            ? paymentObj[payMethod].ExpireDate
+            : payMethod === "CVS"
+            ? paymentObj[payMethod].ExpireDate
+            : payMethod === "BARCODE"
+            ? paymentObj[payMethod].ExpireDate
+            : ""}
+        </p>
+
+        <br />
+
+        <br />
+        <button
+          className=" text-center items-center gap-2 rounded-md py-2 px-8 text-sm/6 font-semibold text-white shadow-inner shadow-white/10 focus:outline-none data-[focus]:outline-1 data-[focus]:outline-white transition ease-in-out delay-50 bg-orange-400 hover:-translate-y-1 hover:scale-110 hover:bg-orange-500 hover:text-white duration-300"
+          onClick={() => {
+            navigate("/");
+          }}>
+          返回首頁
+        </button>
+      </div>
+    </div>
   );
 }

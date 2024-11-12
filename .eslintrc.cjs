@@ -17,6 +17,6 @@ module.exports = {
       "warn",
       {allowConstantExport: true}
     ],
-    "react/prop-types": "off" //增加這一行
+    "react/prop-types": "off"
   }
 };

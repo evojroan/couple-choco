@@ -7,6 +7,8 @@ import Input from "./Pages/Input";
 import Payment from "./Pages/Payment";
 import OrderResultURL from "./Pages/OrderResultURL";
 import PaymentInfoPage from "./Pages/PaymentInfoPage";
+import About from "./Pages/About";
+import Layout from "./Components/components";
 //import ApplePay from '../public/.well-known/apple-developer-merchantid-domain-association.zip'
 //
 
@@ -33,55 +35,70 @@ export default function App() {
   const [Version, setVersion] = useState("V2");
   const [PaymentInfo, setPaymentInfo] = useState("");
   const [MerchantTradeNo, setMerchantTradeNo] = useState("");
-  const backendurl = "https://ecpay-embedded-checkout-backend.vercel.app";
-//const backendurl = "http://localhost:3000";
+  //const backendurl = "https://ecpay-embedded-checkout-backend.vercel.app";
+  const backendurl = "http://localhost:3000";
 
   return (
-    <Router>
-      <Routes>
-        <Route path='/' element={<Index/>}/>
-        {/* <Route path='/.well-known' element={<ApplePay/>}/> */}
-        <Route
-          path="/Input"
-          element={
-            <Input
-            Language= {Language}
-            setLanguage= {setLanguage}
-              backendurl={backendurl}
-              setToken={setToken}
-              MerchantID={MerchantID}
-              setMerchantID={setMerchantID}
-              getCurrentTime={getCurrentTime}
-              setMerchantTradeNo={setMerchantTradeNo}
+
+      <Router>
+        <Routes>
+          <Route element={<Layout />}>
+            <Route
+              path="/"
+              element={<Index />}
             />
-          }
-        />
-        <Route
-          path="/payment"
-          element={
-            <Payment
-              backendurl={backendurl}
-              MerchantID={MerchantID}
-              setMerchantTradeNo={setMerchantTradeNo}
-              MerchantTradeNo={MerchantTradeNo}
-              setPaymentInfo={setPaymentInfo}
-              Token={Token}
-              Language={Language}
-              ServerType={ServerType}
-              IsLoading={IsLoading}
-              Version={Version}
+            <Route
+              path="/Input"
+              element={
+                <Input
+                  Language={Language}
+                  setLanguage={setLanguage}
+                  backendurl={backendurl}
+                  setToken={setToken}
+                  MerchantID={MerchantID}
+                  setMerchantID={setMerchantID}
+                  getCurrentTime={getCurrentTime}
+                  setMerchantTradeNo={setMerchantTradeNo}
+                />
+              }
             />
-          }
-        />
-        <Route
-          path="/OrderResultURL"
-          element={<OrderResultURL backendurl={backendurl} Language={Language} />}
-        />
-        <Route
-          path="/PaymentInfoPage"
-          element={<PaymentInfoPage PaymentInfo={PaymentInfo} />}
-        />
-      </Routes>
-    </Router>
+            <Route
+              path="/About"
+              element={<About />}
+            />
+            <Route
+              path="/payment"
+              element={
+                <Payment
+                  backendurl={backendurl}
+                  MerchantID={MerchantID}
+                  setMerchantTradeNo={setMerchantTradeNo}
+                  MerchantTradeNo={MerchantTradeNo}
+                  setPaymentInfo={setPaymentInfo}
+                  Token={Token}
+                  Language={Language}
+                  ServerType={ServerType}
+                  IsLoading={IsLoading}
+                  Version={Version}
+                />
+              }
+            />
+            <Route
+              path="/OrderResultURL"
+              element={
+                <OrderResultURL
+                  backendurl={backendurl}
+                  Language={Language}
+                />
+              }
+            />
+            <Route
+              path="/PaymentInfoPage"
+              element={<PaymentInfoPage PaymentInfo={PaymentInfo} />}
+            />
+          </Route>
+        </Routes>
+      </Router>
+   
   );
 }

@@ -34,20 +34,19 @@ export default function Payment({
     Data: Data
   };
 
-  const translations={
-    [ECPay.Language.zhTW]:{
-      pageTitle:"綠界站內付 2.0 付款畫面",
-      pay:"付款",
-      paying:"付款中"
+  const translations = {
+    [ECPay.Language.zhTW]: {
+      pageTitle: "請選擇付款方式",
+      pay: "付款",
+      paying: "付款中"
     },
-    [ECPay.Language.enUS]:{
-      pageTitle:"ECPay Embedded Checkout Page",
-      pay:"Pay",
-      paying:"Paying"
-    },
-  }
+    [ECPay.Language.enUS]: {
+      pageTitle: "Please select payment method",
+      pay: "Pay",
+      paying: "Paying"
+    }
+  };
 
-  
   useEffect(() => {
     if (!window.ECPayInitialized) {
       window.ECPay.initialize(ServerType, IsLoading, function (errMsg) {
@@ -102,8 +101,6 @@ export default function Payment({
     }
   }, [ThreeDURL, UnionPayURL]);
 
- 
-
   //取得 Paytoken 後，立即以 CreatePaymentPayload 呼叫後端
   async function handleCreatePayment() {
     try {
@@ -141,16 +138,24 @@ export default function Payment({
 
   return (
     <div>
-      <h2>{translations[Language].pageTitle}</h2>
-
-      <div id="PaymentComponent">
-        <div id="ECPayPayment"> </div>
+      <div className="flex flex-col items-top justify-center">
+        <div
+          id="ECPayPayment"
+          className="">
+         
+        </div>
         {paymentRendered && (
-          <button
-            onClick={handleGetPayToken}
-            disabled={isClicked}>
-            {isClicked ? translations[Language].paying : translations[Language].pay}
-          </button>
+          <div className="flex justify-center">
+            {" "}
+            <button
+              className="w-fit m-10 text-center items-center gap-2 rounded-md py-2 px-8 text-sm/6 font-semibold text-amber-500 shadow-inner shadow-white/10 focus:outline-none data-[focus]:outline-1 data-[focus]:outline-white transition ease-in-out delay-50 bg-orange-100 hover:-translate-y-1 hover:scale-110 hover:bg-orange-500 hover:text-white duration-300"
+              onClick={handleGetPayToken}
+              disabled={isClicked}>
+              {isClicked
+                ? translations[Language].paying
+                : translations[Language].pay}
+            </button>
+          </div>
         )}
       </div>
     </div>

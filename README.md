@@ -1,41 +1,21 @@
-# 站內付 2.0
+# Couple Choco
 
 ## 這是什麼？
 
-這是串接綠界金流站內付 2.0 的範例，分別以 React 與 Node.js 實作前後端。
+這是串接綠界金流站內付 2.0 的範例網站，分別以 React 與 Node.js 實作前後端，並以 Tailwind CSS 切版，另使用 Swiper.JS 與 AOS.JS 製作特效。商品圖片與文案以 Claude AI 與 MidJourney 製成。
 
-說明文章：
+## 關於網站的操作
+
+由於是測試環境，無法以真實信用卡卡號付款，其餘 ATM 虛擬帳號、便利商店代碼條碼亦非真實資料。
+
+若要使用信用卡付款，請使用測試卡號：https://developers.ecpay.com.tw/?p=8981
+
+## 程式碼解說文章
+
 https://tinyurl.com/3ndpfm27
-
-前端頁面：
-https://ecpay-embedded-checkout-git-main-evojroans-projects.vercel.app/
-
-後端 Repo：
-https://github.com/evojroan/ecpay_embedded_checkout_backend
 
 ## 待完成、優化功能
 
-- [x] 1. 付款方式選 ATM 回傳的付款資訊
-- [x] 2. 付款方式選 BARCODE 回傳的付款資訊
-- [x] 3. 付款方式選 CVS 回傳的付款資訊
-- [x] 4. ReturnURL
-- [x] 5. OrderResultURL
-- [x] 6. Input.jsx 按鈕不可重複按
-- [x] 7. Input 頁面可以切換語言
-- [ ] 8. 用 Redux 管理所有狀態
-- [ ] 9. 前端切版 TW
-
-## 待解決問題
-
-- [ ] 1.  進到 Payment 頁面後，Uncaught TypeError: i is not a function
-- [ ] 2.  Payment.jsx 尚待解決 useCallback 問題：
-
-```
-useEffect(() => {
-    if (PayToken) {
-      handleCreatePayment();
-    }
-  }, [PayToken]);
-```
-
-
+- [ ] 1. RWD
+- [ ] 2. Apple Pay
+- [ ] 3. Apple Pay Result
